@@ -21,7 +21,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->date('tgl_pinjam');
             $table->date('tgl_kembali_seharusnya');
-            $table->date('tgl_kembali');
+            $table->date('tgl_kembali')->nullable();
             $table->enum('status', ['dipinjam', 'kembali']);
             $table->timestamps();
         });
