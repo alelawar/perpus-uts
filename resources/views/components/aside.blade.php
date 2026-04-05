@@ -14,7 +14,7 @@
         : 'text-gray-500 hover:bg-blue-50 hover:text-blue-600 font-medium';
     }
 
-    $categories = Kategori::orderBy('id', 'desc')
+    $categories = Kategori::orderBy('nama')
       ->limit(5)
       ->get();
   @endphp
