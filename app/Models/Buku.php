@@ -10,12 +10,12 @@ class Buku extends Model
 
     protected $table = 'buku';
 
-    public function kategori($related, $foreignKey = null, $ownerKey = null, $relation = null)
+    public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
 
-    public function peminjaman($related, $foreignKey = null, $localKey = null)
+    public function peminjaman()
     {
         return $this->hasMany(Peminjaman::class, 'buku_id', 'id');
     }
