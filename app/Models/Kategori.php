@@ -10,8 +10,13 @@ class Kategori extends Model
 
     protected $table = 'kategori';
 
-    public function buku($related, $foreignKey = null, $localKey = null)
+    public function buku()
     {
         return $this->hasMany(Buku::class, 'kategori_id', 'id');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

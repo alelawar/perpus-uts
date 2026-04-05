@@ -1,31 +1,41 @@
+@php
+  use App\Models\Kategori;
+
+  $kategoris = Kategori::all();
+@endphp
 <x-layout>
-    <div class="flex min-h-screen">
-        <!-- CONTENT -->
-        <div class="p-7 overflow-y-auto flex-1 min-w-0">
-          <!-- Banner -->
-          <x-home.banner/>
-          <!-- Kategori Chips -->
-          <div class="flex flex-wrap gap-2 mb-5">
-            <x-home.category-chip/>
-          </div>
+  <div class="flex min-h-screen">
+    <div class="p-7 overflow-y-auto flex-1 min-w-0">
+      <x-home.banner/>
 
-          <!-- Section: Koleksi Terbaru -->
-          <div class="flex items-center justify-between mb-3 w-full">
-            <h3 class="text-lg font-semibold text-gray-800 pb-1 border-b-2 border-blue-600">Koleksi Terbaru</h3>
-            {{-- <a href="#" class="text-xs font-medium text-blue-600 hover:underline">Lihat semua →</a> --}}
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8 w-full">
-            @forelse ($books as $book)
-              <x-home.card
-                :book="$book"
-              />
-            @empty
+      <div class="flex flex-wrap gap-2 mb-5">
+        {{-- Reset / Semua --}}
+        <a href="{{ route('home') }}"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium
+          {{ !request('search') && !request()->route('kategori')
+            ? 'bg-blue-50 border border-blue-200 text-blue-800'
+            : 'bg-gray-50 border border-gray-200 text-gray-600' }}">
+          Semua
+        </a>
 
-            @endforelse
-          </div>
-    
-        </div>
-        
+        {{-- Search chip --}}
+        <x-home.category-chip type="search" />
+
+        {{-- Kategori chips --}}
+        @foreach ($kategoris as $kategori)
+          <x-home.category-chip type="kategori" :kategori="$kategori" />
+        @endforeach
+      </div>
+
+      <div class="flex items-center justify-between mb-3 w-full">
+        <h3 class="text-lg font-semibold text-gray-800 pb-1 border-b-2 border-blue-600">Koleksi Terbaru</h3>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8 w-full">
+        @forelse ($books as $book)
+          <x-home.card :book="$book" />
+        @empty
+        @endforelse
       </div>
     </div>
+  </div>
 </x-layout>

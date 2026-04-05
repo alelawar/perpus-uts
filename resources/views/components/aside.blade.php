@@ -1,11 +1,22 @@
   @php
-    function navClass($route)
+    use App\Models\Kategori;
+
+    function navClass($route, $kategori = null)
     {
-      return request()->routeIs($route)
+      if ($kategori) {
+        $isActive = request()->route('kategori')?->is($kategori);
+      } else {
+        $isActive = request()->routeIs($route);
+      }
+
+      return $isActive
         ? 'text-blue-600 bg-blue-50 font-semibold'
         : 'text-gray-500 hover:bg-blue-50 hover:text-blue-600 font-medium';
     }
 
+    $categories = Kategori::orderBy('id', 'desc')
+      ->limit(5)
+      ->get();
   @endphp
 
   <aside class="w-56 flex-shrink-0 bg-white border-r border-gray-100 flex flex-col py-5 px-3 sticky top-0 h-screen overflow-y-auto">
@@ -29,16 +40,20 @@
 
     <!-- Nav: Kategori -->
     <p class="text-[10px] font-semibold tracking-widest text-gray-400 uppercase px-2 mb-1">Kategori</p>
+    
     <a href="#" class="flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-blue-50 hover:text-blue-600 mb-0.5 transition-colors">
       <x-heroicon-m-hashtag  class="w-5 h-5"/>
       Semua Kategori
     </a>
-    <a href="#" class="flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-blue-50 hover:text-blue-600 mb-0.5 transition-colors">
-      <x-heroicon-m-tag class="w-5 h-5 rounded-full  flex-shrink-0" />
-      Teknologi
 
-    </a> 
-
+    @forelse ($categories as $cat)
+      <a href="{{ route('show-category', $cat) }}" 
+        class="flex items-center gap-2 px-2 py-2 rounded-lg text-sm mb-0.5 transition-colors {{ navClass(null, $cat) }}">
+        <x-heroicon-m-tag class="w-5 h-5 rounded-full flex-shrink-0" />
+        {{ $cat->nama }}
+      </a>
+    @empty
+    @endforelse
     <div class="my-3 border-t-2 border-gray-100"></div>
 
     <a href="#" class="flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-blue-50 hover:text-blue-600 transition-colors">
