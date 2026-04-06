@@ -1,3 +1,7 @@
+@php
+  $stok = request('stok');
+@endphp
+
 <!-- TOPBAR -->
 <div class="bg-white border-b border-gray-100 px-7 py-3 flex items-center gap-3 sticky top-0 z-10">
   <div class="relative flex-1 max-w-lg">
@@ -15,9 +19,27 @@
       >
     </form>
   </div>
-  <div class="flex gap-2">
-    <button class="px-3 py-2 text-xs font-semibold rounded-lg bg-blue-600 text-white border border-blue-600">Semua</button>
-    <button class="px-3 py-2 text-xs font-medium rounded-lg text-gray-500 border border-gray-100 bg-white hover:border-blue-200 hover:text-blue-600 transition-colors">Tersedia</button>
-    <button class="px-3 py-2 text-xs font-medium rounded-lg text-gray-500 border border-gray-100 bg-white hover:border-blue-200 hover:text-blue-600 transition-colors">Terbaru</button>
-  </div>
+<div class="flex gap-2">
+
+  <!-- Semua -->
+  <a 
+    href="{{ route('home', array_merge(request()->query(), ['stok' => null])) }}"
+    class="px-3 py-2 text-xs rounded-lg transition-colors 
+      {{ !$stok
+  ? 'bg-blue-600 text-white border border-blue-600 font-semibold'
+  : 'text-gray-500 border border-gray-100 bg-white hover:border-blue-200 hover:text-blue-600 font-medium' }}">
+    Semua
+  </a>
+
+  <!-- Tersedia -->
+  <a 
+    href="{{ route('home', array_merge(request()->query(), ['stok' => 'tersedia'])) }}"
+    class="px-3 py-2 text-xs rounded-lg transition-colors 
+      {{ $stok === 'tersedia'
+  ? 'bg-blue-600 text-white border border-blue-600 font-semibold'
+  : 'text-gray-500 border border-gray-100 bg-white hover:border-blue-200 hover:text-blue-600 font-medium' }}">
+    Tersedia
+  </a>
+
+</div>
 </div>
