@@ -1,195 +1,40 @@
 <?php
 
-namespace Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-
-class BukuSeeder extends Seeder
+return new class extends Migration
 {
-    public function run(): void
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        $books = [
-            [
-                'kategori_id' => 1,
-                'judul' => 'Laskar Pelangi',
-                'penulis' => 'Andrea Hirata',
-                'penerbit' => 'Bentang',
-                'sinopsis' => 'Kisah perjuangan anak-anak Belitung dalam meraih pendidikan.',
-                'tahun_terbit' => '2005',
-                'stok' => '10',
-                'rak' => 'A1',
-                'hambalan' => '1',
-                'cover' => 'laskar.jpg',
-            ],
-            [
-                'kategori_id' => 2,
-                'judul' => 'Naruto',
-                'penulis' => 'Masashi Kishimoto',
-                'penerbit' => 'Shonen Jump',
-                'sinopsis' => 'Petualangan ninja muda bernama Naruto.',
-                'tahun_terbit' => '1999',
-                'stok' => '5',
-                'rak' => 'B1',
-                'hambalan' => '2',
-                'cover' => 'naruto.jpg',
-            ],
-
-            // TAMBAHAN DATA
-            [
-                'kategori_id' => 1,
-                'judul' => 'Bumi',
-                'penulis' => 'Tere Liye',
-                'penerbit' => 'Gramedia',
-                'sinopsis' => 'Petualangan dunia paralel penuh misteri.',
-                'tahun_terbit' => '2014',
-                'stok' => '8',
-                'rak' => 'A2',
-                'hambalan' => '1',
-                'cover' => 'bumi.jpg',
-            ],
-            [
-                'kategori_id' => 1,
-                'judul' => 'Negeri 5 Menara',
-                'penulis' => 'Ahmad Fuadi',
-                'penerbit' => 'Gramedia',
-                'sinopsis' => 'Cerita inspiratif santri dengan mimpi besar.',
-                'tahun_terbit' => '2009',
-                'stok' => '7',
-                'rak' => 'A3',
-                'hambalan' => '1',
-                'cover' => 'negeri5menara.jpg',
-            ],
-            [
-                'kategori_id' => 3,
-                'judul' => 'Atomic Habits',
-                'penulis' => 'James Clear',
-                'penerbit' => 'Penguin',
-                'sinopsis' => 'Cara membangun kebiasaan kecil yang berdampak besar.',
-                'tahun_terbit' => '2018',
-                'stok' => '6',
-                'rak' => 'C1',
-                'hambalan' => '2',
-                'cover' => 'atomic.jpg',
-            ],
-            [
-                'kategori_id' => 3,
-                'judul' => 'Rich Dad Poor Dad',
-                'penulis' => 'Robert Kiyosaki',
-                'penerbit' => 'Plata Publishing',
-                'sinopsis' => 'Edukasi finansial dari dua sudut pandang ayah.',
-                'tahun_terbit' => '1997',
-                'stok' => '4',
-                'rak' => 'C2',
-                'hambalan' => '2',
-                'cover' => 'richdad.jpg',
-            ],
-            [
-                'kategori_id' => 2,
-                'judul' => 'One Piece',
-                'penulis' => 'Eiichiro Oda',
-                'penerbit' => 'Shonen Jump',
-                'sinopsis' => 'Petualangan bajak laut mencari One Piece.',
-                'tahun_terbit' => '1997',
-                'stok' => '9',
-                'rak' => 'B2',
-                'hambalan' => '2',
-                'cover' => 'onepiece.jpg',
-            ],
-            [
-                'kategori_id' => 2,
-                'judul' => 'Attack on Titan',
-                'penulis' => 'Hajime Isayama',
-                'penerbit' => 'Kodansha',
-                'sinopsis' => 'Perang manusia melawan titan raksasa.',
-                'tahun_terbit' => '2009',
-                'stok' => '5',
-                'rak' => 'B3',
-                'hambalan' => '2',
-                'cover' => 'aot.jpg',
-            ],
-            [
-                'kategori_id' => 1,
-                'judul' => 'Ayat-Ayat Cinta',
-                'penulis' => 'Habiburrahman El Shirazy',
-                'penerbit' => 'Republika',
-                'sinopsis' => 'Kisah cinta Islami penuh makna.',
-                'tahun_terbit' => '2004',
-                'stok' => '6',
-                'rak' => 'A4',
-                'hambalan' => '1',
-                'cover' => 'aac.jpg',
-            ],
-            [
-                'kategori_id' => 3,
-                'judul' => 'The Psychology of Money',
-                'penulis' => 'Morgan Housel',
-                'penerbit' => 'Harriman House',
-                'sinopsis' => 'Perilaku manusia dalam mengelola uang.',
-                'tahun_terbit' => '2020',
-                'stok' => '7',
-                'rak' => 'C3',
-                'hambalan' => '2',
-                'cover' => 'money.jpg',
-            ],
-            [
-                'kategori_id' => 1,
-                'judul' => 'Dilan 1990',
-                'penulis' => 'Pidi Baiq',
-                'penerbit' => 'Pastel Books',
-                'sinopsis' => 'Kisah cinta remaja yang unik.',
-                'tahun_terbit' => '2014',
-                'stok' => '10',
-                'rak' => 'A5',
-                'hambalan' => '1',
-                'cover' => 'dilan.jpg',
-            ],
-            [
-                'kategori_id' => 3,
-                'judul' => 'Start With Why',
-                'penulis' => 'Simon Sinek',
-                'penerbit' => 'Portfolio',
-                'sinopsis' => 'Cara berpikir pemimpin hebat.',
-                'tahun_terbit' => '2009',
-                'stok' => '5',
-                'rak' => 'C4',
-                'hambalan' => '2',
-                'cover' => 'why.jpg',
-            ],
-            [
-                'kategori_id' => 2,
-                'judul' => 'Dragon Ball',
-                'penulis' => 'Akira Toriyama',
-                'penerbit' => 'Shonen Jump',
-                'sinopsis' => 'Petualangan Goku mencari bola naga.',
-                'tahun_terbit' => '1984',
-                'stok' => '8',
-                'rak' => 'B4',
-                'hambalan' => '2',
-                'cover' => 'dragonball.jpg',
-            ],
-            [
-                'kategori_id' => 1,
-                'judul' => 'Perahu Kertas',
-                'penulis' => 'Dee Lestari',
-                'penerbit' => 'Bentang',
-                'sinopsis' => 'Kisah cinta dan mimpi anak muda.',
-                'tahun_terbit' => '2009',
-                'stok' => '6',
-                'rak' => 'A6',
-                'hambalan' => '1',
-                'cover' => 'perahu.jpg',
-            ],
-        ];
-
-        foreach ($books as $book) {
-            DB::table('buku')->insert([
-                ...$book,
-                'slug' => Str::slug($book['judul']),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        Schema::create('buku', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('kategori_id')
+                ->constrained('kategori')
+                ->cascadeOnDelete();
+            $table->string('judul');
+            $table->string('slug')->unique();
+            $table->string('penulis');
+            $table->string('penerbit');
+            $table->string('sinopsis');
+            $table->string('tahun_terbit');
+            $table->string('stok');
+            $table->string('rak');
+            $table->string('hambalan');
+            $table->string('cover');
+            $table->timestamps();
+        });
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('buku');
+    }
+};
