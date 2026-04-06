@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('judul');
             $table->string('penulis');
             $table->string('penerbit');
+            $table->string('sinopsis');
             $table->string('tahun_terbit');
             $table->string('stok');
             $table->string('rak');

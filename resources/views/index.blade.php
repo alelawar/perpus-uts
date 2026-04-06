@@ -16,7 +16,7 @@
 @endphp
 <x-layout>
   <div class="flex min-h-screen">
-    <div class="p-7 overflow-y-auto flex-1 min-w-0">
+    <div class="p-4 md:p-7 overflow-y-auto flex-1 min-w-0">
       <x-home.banner/>
 
       <div class="flex flex-wrap items-center gap-2 mb-5">
@@ -44,7 +44,7 @@
       <div class="flex items-center justify-between mb-3 w-full">
         <h3 class="text-lg font-semibold text-gray-800 pb-1 border-b-2 border-blue-600">Koleksi Terbaru</h3>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8 w-full">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8 w-full">
         @forelse ($books as $book)
           <x-home.card :book="$book" />
         @empty

@@ -19,7 +19,7 @@
       ->get();
   @endphp
 
-  <aside class="w-56 flex-shrink-0 bg-white border-r border-gray-100 flex flex-col py-5 px-3 sticky top-0 h-screen overflow-y-auto">
+  <aside class="hidden md:flex w-56 flex-shrink-0 bg-white border-r border-gray-100 flex-col py-5 px-3 sticky top-0 h-screen overflow-y-auto">
 
     <!-- Brand -->
     <div class="flex items-center gap-2 px-2 mb-6">
