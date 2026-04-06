@@ -1,12 +1,20 @@
 @php
-    $tahun = request('tahun');
-    $stok = request('stok');
-    $aktif = $tahun || $stok;
+  use App\Models\Buku;
 
-    $baseQuery = array_filter([
-        'search' => request('search'),
-        'kategori' => request('kategori'),
-    ]);
+  $tahun = request('tahun');
+  $stok = request('stok');
+  $penulis = request('penulis');
+  $aktif = $tahun || $stok || $penulis;
+
+  $penulisList = Buku::select('penulis')
+    ->distinct()
+    ->orderBy('penulis')
+    ->pluck('penulis');
+
+  $baseQuery = array_filter([
+    'search' => request('search'),
+    'kategori' => request('kategori'),
+  ]);
 @endphp
 
 <div class="relative ml-auto" x-data="{ open: false }" @click.outside="open = false">
@@ -17,12 +25,12 @@
     type="button"
     class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors
       {{ $aktif
-    ? 'bg-blue-50 border border-blue-200 text-blue-800'
-    : 'bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100' }}">
+  ? 'bg-blue-50 border border-blue-200 text-blue-800'
+  : 'bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100' }}">
     <x-heroicon-o-funnel class="w-3.5 h-3.5" />
     Filter
     @if ($aktif)
-          <span class="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block"></span>
+      <span class="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block"></span>
     @endif
   </button>
 
@@ -48,16 +56,37 @@
       {{-- Filter Tahun Terbit --}}
       <div class="mb-4">
         <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+          <x-heroicon-o-user class="w-3.5 h-3.5" />
+          Penulis
+        </label>
+
+        <select name="penulis"
+          class="w-full text-sm border border-gray-200 rounded-lg px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          
+          <option value="">Semua penulis</option>
+
+          @foreach ($penulisList as $p)
+            <option value="{{ $p }}" {{ $penulis == $p ? 'selected' : '' }}>
+              {{ $p }}
+            </option>
+          @endforeach
+
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
           <x-heroicon-o-calendar-days class="w-3.5 h-3.5" />
           Tahun Terbit
         </label>
-        <select name="tahun"
-          class="w-full text-sm border border-gray-200 rounded-lg px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
-          <option value="">Semua tahun</option>
-          @foreach ($tahunList as $t)
-            <option value="{{ $t }}" {{ $tahun == $t ? 'selected' : '' }}>{{ $t }}</option>
-          @endforeach
-        </select>
+
+        <input 
+          type="number"
+          name="tahun"
+          value="{{ $tahun }}"
+          placeholder="Contoh: 2020"
+          class="w-full text-sm border border-gray-200 rounded-lg px-3 py-1.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        >
       </div>
 
       {{-- Filter Stok --}}

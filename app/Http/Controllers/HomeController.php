@@ -13,6 +13,7 @@ class HomeController extends Controller
         $search = request('search');
         $tahun  = request('tahun');
         $stok   = request('stok');
+        $penulis   = request('penulis');
 
         $books = Buku::when($search, function ($query, $search) {
             $query->where('judul', 'like', "%{$search}%")
@@ -29,19 +30,21 @@ class HomeController extends Controller
                     $query->where('stok', '<=', 0);
                 }
             })
+            ->when($penulis, function ($query, $penulis) {
+                $query->where('penulis', $penulis); // ⬅️ ini inti nya
+            })
             ->orderBy('id', 'desc')
             ->paginate(10)
             ->withQueryString();
 
         $kategoris = Kategori::all();
 
-        // Ambil daftar tahun unik buat opsi dropdown
-        $tahunList = Buku::selectRaw('YEAR(tahun_terbit) as tahun')
+        $penulisList = Buku::select('penulis')
             ->distinct()
-            ->orderByDesc('tahun')
-            ->pluck('tahun');
+            ->orderBy('penulis')
+            ->pluck('penulis');
 
-        return view('index', compact('books', 'kategoris', 'tahunList'));
+        return view('index', compact('books', 'kategoris', 'penulisList',));
     }
 
     public function showCategory(Kategori $kategori)

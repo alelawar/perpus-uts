@@ -38,7 +38,7 @@
         @endforeach
 
         {{-- Filter button (paling kanan) --}}
-        <x-home.filter-button :tahunList="$tahunList" />
+        <x-home.filter-button  />
       </div>
 
       <div class="flex items-center justify-between mb-3 w-full">
