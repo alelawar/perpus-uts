@@ -17,6 +17,7 @@ return new class extends Migration
                 ->constrained('kategori')
                 ->cascadeOnDelete();
             $table->string('judul');
+            $table->string('slug')->unique();
             $table->string('penulis');
             $table->string('penerbit');
             $table->string('sinopsis');

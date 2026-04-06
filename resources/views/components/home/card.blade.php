@@ -1,7 +1,7 @@
 @props([
   'book'
 ])
-<a href="">
+<a href="{{ route('detail-book', $book->id) }}">
   <div class="bg-white w-full border border-gray-100 rounded-2xl overflow-hidden hover:border-blue-200 hover:-translate-y-1 transition-all cursor-pointer">
     <div class="h-28 md:h-36 bg-blue-50 flex items-center justify-center text-4xl relative">
       📘
