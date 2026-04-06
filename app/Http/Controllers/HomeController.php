@@ -46,7 +46,7 @@ class HomeController extends Controller
 
     public function showCategory(Kategori $kategori)
     {
-        $books = $kategori->buku;
+        $books = $kategori->buku()->paginate(10);
 
         return view('index', compact('books'));
     }
