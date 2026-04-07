@@ -100,7 +100,7 @@
 
     <div class="my-3 border-t-2 border-gray-100"></div>
 
-    <a href="#" @click="sidebarOpen = false" class="flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+    <a href="{{ route('about') }}" @click="sidebarOpen = false" class="flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-blue-50 hover:text-blue-600 transition-colors">
       <x-heroicon-m-question-mark-circle class="w-5 h-5" />
       Tentang
     </a>

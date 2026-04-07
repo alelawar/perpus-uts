@@ -15,6 +15,7 @@
         <div class="flex-1 min-w-0 flex flex-col">
             <x-topbar/>
         {{ $slot }}
+        <x-footer/>
         </div>
     </div>
     </body>
