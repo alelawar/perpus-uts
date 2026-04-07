@@ -10,7 +10,7 @@
   @vite('resources/css/app.css')
 </head>
     <body class="bg-[#F4F7FB] text-gray-800 min-h-screen">
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen" x-data="{ sidebarOpen: false }">
         <x-aside/>
         <div class="flex-1 min-w-0 flex flex-col">
             <x-topbar/>

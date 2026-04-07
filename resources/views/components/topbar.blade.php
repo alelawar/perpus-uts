@@ -4,6 +4,16 @@
 
 <!-- TOPBAR -->
 <div class="bg-white border-b border-gray-100 px-4 md:px-7 py-3 flex items-center gap-3 sticky top-0 z-10">
+
+  <!-- Hamburger: hanya muncul di mobile -->
+  <button
+    @click="sidebarOpen = true"
+    class="md:hidden flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors flex-shrink-0"
+    aria-label="Buka menu"
+  >
+    <x-heroicon-o-bars-3 class="w-5 h-5" />
+  </button>
+
   <div class="relative flex-1 max-w-lg">
     <form action="{{ route('home') }}" method="GET">
       
