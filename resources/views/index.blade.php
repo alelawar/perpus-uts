@@ -16,7 +16,7 @@
 @endphp
 <x-layout>
   <div class="flex min-h-screen">
-    <div class="p-4 md:p-7 overflow-y-auto flex-1 min-w-0">
+    <div class="p-4 md:p-7 overflow-y-auto flex-1 min-w-0 max-w-5xl mx-auto">
       <x-home.banner/>
 
       <div class="flex flex-wrap items-center gap-2 mb-5">

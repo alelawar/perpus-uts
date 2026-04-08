@@ -18,6 +18,7 @@ class SiswaSeeder extends Seeder
             [
                 'nama' => 'Ahmad',
                 'nis' => '12345',
+                'no_telp' => '12212112',
                 'kelas' => 'XI',
                 'jurusan' => 'RPL',
                 'tgl_masuk' => Carbon::parse('2022-07-01'),
@@ -26,6 +27,7 @@ class SiswaSeeder extends Seeder
             [
                 'nama' => 'Budi',
                 'nis' => '12346',
+                'no_telp' => '12212113',
                 'kelas' => 'X',
                 'jurusan' => 'TKJ',
                 'tgl_masuk' => Carbon::parse('2023-07-01'),
