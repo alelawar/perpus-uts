@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('kelas');
             $table->string('jurusan');
             $table->date('tgl_masuk');
+            $table->boolean('is_verified')->default(false);
             $table->integer('point');
             $table->timestamps();
         });

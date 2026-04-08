@@ -8,7 +8,7 @@ class Siswa extends Model
 {
     protected $guarded = [];
 
-    protected $table = 'buku';
+    protected $table = 'siswa';
 
     public function peminjaman($related, $foreignKey = null, $localKey = null)
     {

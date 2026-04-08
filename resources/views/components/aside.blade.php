@@ -72,6 +72,10 @@
       <x-heroicon-m-home class="w-5 h-5" />
       Beranda
     </a>
+    <a href="{{ route('show-registred') }}" @click="sidebarOpen = false" class="flex items-center gap-2 px-2 py-2 rounded-lg text-sm mb-0.5 transition-colors {{ navClass('show-registred') }}">
+      <x-heroicon-m-user-plus class="w-5 h-5" />
+      Registrasi Siswa
+    </a>
     @if (Auth::check())
       <a href="{{ route('filament.admin.pages.dashboard') }}" @click="sidebarOpen = false" class="flex items-center gap-2 px-2 py-2 rounded-lg text-sm mb-0.5 transition-colors {{ navClass('filament.admin.pages.dashboard') }}">
         <x-heroicon-m-user class="w-5 h-5" />
