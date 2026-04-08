@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\DB;
 
@@ -11,7 +12,7 @@ class SiswaController extends Controller
     /**
      * Menampilkan halaman form registrasi siswa
      */
-    public function show() 
+    public function show()
     {
         return view('registred-siswa');
     }
@@ -45,7 +46,8 @@ class SiswaController extends Controller
             'kelas' => [
                 'required',
                 'string',
-                'max:10'
+                'max:10',
+                Rule::in(['X', 'XI', 'XII'])
             ],
             'jurusan' => [
                 'required',
@@ -62,22 +64,22 @@ class SiswaController extends Controller
             'nama.required' => 'Nama wajib diisi',
             'nama.min' => 'Nama minimal 3 karakter',
             'nama.max' => 'Nama maksimal 255 karakter',
-            
+
             'nis.required' => 'NIS wajib diisi',
             'nis.unique' => 'NIS sudah terdaftar di sistem',
             'nis.max' => 'NIS maksimal 20 karakter',
-            
+
             'no_telp.required' => 'Nomor telepon wajib diisi',
             'no_telp.unique' => 'Nomor telepon sudah terdaftar',
             'no_telp.regex' => 'Nomor telepon hanya boleh berisi angka',
             'no_telp.max' => 'Nomor telepon maksimal 15 digit',
-            
+
             'kelas.required' => 'Kelas wajib diisi',
             'kelas.max' => 'Kelas maksimal 10 karakter',
-            
+
             'jurusan.required' => 'Jurusan wajib diisi',
             'jurusan.max' => 'Jurusan maksimal 100 karakter',
-            
+
             'tgl_masuk.required' => 'Tanggal masuk wajib diisi',
             'tgl_masuk.date' => 'Format tanggal tidak valid',
             'tgl_masuk.before_or_equal' => 'Tanggal masuk tidak boleh melebihi hari ini',
@@ -85,7 +87,7 @@ class SiswaController extends Controller
 
         // Gunakan transaction untuk memastikan data integrity
         DB::beginTransaction();
-        
+
         try {
             // Simpan data siswa ke database
             $siswa = Siswa::create([
@@ -104,10 +106,9 @@ class SiswaController extends Controller
             // Redirect dengan pesan sukses
             return redirect()->route('show-registred')
                 ->with('success', 'Registrasi berhasil! Data siswa ' . $siswa->nama . ' telah tersimpan. Silakan tunggu verifikasi dari admin.');
-
         } catch (\Exception $e) {
             DB::rollBack();
-            
+
             // Jika terjadi error saat menyimpan
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.')

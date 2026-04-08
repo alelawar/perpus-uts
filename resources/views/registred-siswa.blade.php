@@ -143,12 +143,14 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         Kelas <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" 
-                                           name="kelas" 
-                                           value="{{ old('kelas') }}"
-                                           class="w-full px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('kelas') ? 'border-red-500 bg-red-50' : 'border-gray-300' }}"
-                                           placeholder="Contoh: X, XI, XII"
-                                           required>
+                                    <select name="kelas"
+                                            class="w-full px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('kelas') ? 'border-red-500 bg-red-50' : 'border-gray-300' }}"
+                                            required>
+                                        <option value="" disabled {{ old('kelas') ? '' : 'selected' }}>Pilih kelas</option>
+                                        <option value="X" {{ old('kelas') === 'X' ? 'selected' : '' }}>X</option>
+                                        <option value="XI" {{ old('kelas') === 'XI' ? 'selected' : '' }}>XI</option>
+                                        <option value="XII" {{ old('kelas') === 'XII' ? 'selected' : '' }}>XII</option>
+                                    </select>
                                     @error('kelas')
                                     <div class="flex items-start gap-2 mt-2">
                                         <svg class="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
