@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('jurusan');
             $table->date('tgl_masuk');
             $table->boolean('is_verified')->default(false);
+            $table->date('verified_at')->nullable();
             $table->integer('point');
             $table->timestamps();
         });
