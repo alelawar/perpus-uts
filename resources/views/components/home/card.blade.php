@@ -13,7 +13,11 @@
       <p class="text-[11px] text-gray-400 mb-2">{{ $book->penulis ?? '-' }}</p>
       <div class="flex items-center justify-between">
         <span class="text-[11px] text-gray-400">{{ $book->tahun_terbit }}</span>
-        <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-green-50 text-green-800">Stok {{ $book->stok }}</span>
+        @if($book->stok < 2)
+          <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-red-50 text-red-800">Stok {{ $book->stok }}</span>
+        @else
+          <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-green-50 text-green-800">Stok {{ $book->stok }}</span>
+        @endif
       </div>
     </div>
   </div>
