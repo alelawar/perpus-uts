@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Siswas\Tables;
 
+use App\Filament\Resources\Siswas\SiswaResource;
+use App\Models\Siswa;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -88,35 +91,41 @@ class SiswasTable
                 // Filter Point 0
                 Filter::make('point_nol')
                     ->label('Point Habis (0)')
-                    ->query(fn (Builder $query): Builder => $query->where('point', 0))
+                    ->query(fn(Builder $query): Builder => $query->where('point', 0))
                     ->toggle(),
 
                 // Filter Point Rendah (dibawah 34)
                 Filter::make('point_rendah')
                     ->label('Point Rendah (< 34)')
-                    ->query(fn (Builder $query): Builder => $query->where('point', '<', 34))
+                    ->query(fn(Builder $query): Builder => $query->where('point', '<', 34))
                     ->toggle(),
 
                 // Filter Point Sedang (34-66)
                 Filter::make('point_sedang')
                     ->label('Point Sedang (34-66)')
-                    ->query(fn (Builder $query): Builder => $query->whereBetween('point', [34, 66]))
+                    ->query(fn(Builder $query): Builder => $query->whereBetween('point', [34, 66]))
                     ->toggle(),
 
                 // Filter Point Tinggi (>= 67)
                 Filter::make('point_tinggi')
                     ->label('Point Tinggi (≥ 67)')
-                    ->query(fn (Builder $query): Builder => $query->where('point', '>=', 67))
+                    ->query(fn(Builder $query): Builder => $query->where('point', '>=', 67))
                     ->toggle(),
 
                 // Filter Siswa Baru (3 bulan terakhir)
                 Filter::make('siswa_baru')
                     ->label('Siswa Baru (3 Bulan Terakhir)')
-                    ->query(fn (Builder $query): Builder => $query->where('tgl_masuk', '>=', now()->subMonths(3)))
+                    ->query(fn(Builder $query): Builder => $query->where('tgl_masuk', '>=', now()->subMonths(3)))
                     ->toggle(),
             ])
             ->recordActions([
                 EditAction::make(),
+                Action::make('printCard')
+                    ->label('Cetak Kartu')
+                    ->icon('heroicon-o-printer')
+                    ->color('success')
+                    ->url(fn(Siswa $record): string => SiswaResource::getUrl('print-card', ['record' => $record->id]))
+                    ->openUrlInNewTab(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

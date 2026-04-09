@@ -25,6 +25,11 @@ class BukuResource extends Resource
         return BukuForm::configure($schema);
     }
 
+    public static function getSlug(\Filament\Panel $panel = null): string
+    {
+        return 'buku';
+    }
+
     public static function table(Table $table): Table
     {
         return BukusTable::configure($table);

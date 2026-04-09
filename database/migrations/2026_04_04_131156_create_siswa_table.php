@@ -18,6 +18,8 @@ return new class extends Migration
                 ->unique();
             $table->string('no_telp')
                 ->unique();
+            $table->string('email')
+                ->unique();
             $table->string('kelas');
             $table->string('jurusan');
             $table->date('tgl_masuk');

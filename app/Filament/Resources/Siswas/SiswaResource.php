@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Siswas;
 use App\Filament\Resources\Siswas\Pages\CreateSiswa;
 use App\Filament\Resources\Siswas\Pages\EditSiswa;
 use App\Filament\Resources\Siswas\Pages\ListSiswas;
+use App\Filament\Resources\Siswas\Pages\PrintCard;
 use App\Filament\Resources\Siswas\Schemas\SiswaForm;
 use App\Filament\Resources\Siswas\Tables\SiswasTable;
 use App\Models\Siswa;
@@ -19,6 +20,11 @@ class SiswaResource extends Resource
     protected static ?string $model = Siswa::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::UserGroup;
+
+    public static function getSlug(\Filament\Panel $panel = null): string
+    {
+        return 'siswa';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -43,6 +49,7 @@ class SiswaResource extends Resource
             'index' => ListSiswas::route('/'),
             'create' => CreateSiswa::route('/create'),
             'edit' => EditSiswa::route('/{record}/edit'),
+            'print-card' => PrintCard::route('/{record}/print-card'), 
         ];
     }
 }

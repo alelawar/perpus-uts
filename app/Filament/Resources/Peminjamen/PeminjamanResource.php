@@ -25,6 +25,12 @@ class PeminjamanResource extends Resource
         return PeminjamanForm::configure($schema);
     }
 
+    public static function getSlug(\Filament\Panel $panel = null): string
+    {
+        return 'peminjaman';
+    }
+
+
     public static function table(Table $table): Table
     {
         return PeminjamenTable::configure($table);
