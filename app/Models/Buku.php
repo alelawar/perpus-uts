@@ -15,8 +15,14 @@ class Buku extends Model
         return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
 
-    public function peminjaman()
+    public function peminjamans()
     {
-        return $this->hasMany(Peminjaman::class, 'buku_id', 'id');
+        return $this->belongsToMany(Peminjaman::class, 'buku_peminjaman')
+            ->withTimestamps();
+    }
+
+    public function bukuPeminjamans()
+    {
+        return $this->hasMany(BukuPeminjaman::class, 'buku_id', 'id');
     }
 }

@@ -6,7 +6,6 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -21,30 +20,50 @@ class PeminjamenTable
         return $table
             ->columns([
                 TextColumn::make('siswa.nama')
-                    ->label('Siswa')
+                    ->label('Nama Siswa')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->weight('medium'),
 
-                TextColumn::make('buku.judul')
-                    ->label('Buku')
+                TextColumn::make('siswa.nis')
+                    ->label('NIS')
                     ->searchable()
-                    ->sortable(),
+                    ->toggleable(),
+
+                TextColumn::make('bukus_count')
+                    ->label('Jumlah Buku')
+                    ->counts('bukus')
+                    ->badge()
+                    ->color('info')
+                    ->alignCenter(),
+
+                TextColumn::make('bukus.judul')
+                    ->label('Buku yang Dipinjam')
+                    ->listWithLineBreaks()
+                    ->limitList(3)
+                    ->expandableLimitedList()
+                    ->searchable(),
 
                 TextColumn::make('tgl_pinjam')
-                    ->label('Tgl. Pinjam')
-                    ->date('d/m/Y')
-                    ->sortable(),
+                    ->label('Tanggal Pinjam')
+                    ->date('d M Y')
+                    ->sortable()
+                    ->icon('heroicon-o-calendar'),
 
                 TextColumn::make('tgl_kembali_seharusnya')
-                    ->label('Tgl. Kembali (Seharusnya)')
-                    ->date('d/m/Y')
-                    ->sortable(),
+                    ->label('Jatuh Tempo')
+                    ->date('d M Y')
+                    ->sortable()
+                    ->icon('heroicon-o-clock')
+                    ->color(fn($record) => $record->status === 'dipinjam' && now()->gt($record->tgl_kembali_seharusnya) ? 'danger' : 'gray'),
 
                 TextColumn::make('tgl_kembali')
-                    ->label('Tgl. Kembali (Aktual)')
-                    ->date('d/m/Y')
+                    ->label('Tanggal Kembali')
+                    ->date('d M Y')
                     ->sortable()
-                    ->placeholder('Belum Dikembalikan'),
+                    ->icon('heroicon-o-check-circle')
+                    ->placeholder('Belum Kembali')
+                    ->toggleable(),
 
                 SelectColumn::make('status')
                     ->label('Status')
@@ -55,6 +74,12 @@ class PeminjamenTable
                     ->allowOptionsHtml()
                     ->native(false)
                     ->selectablePlaceholder(false)
+                    ->beforeStateUpdated(function ($record, $state) {
+                        // Validasi: cek apakah ada perubahan status
+                        if ($record->status === $state) {
+                            return false;
+                        }
+                    })
                     ->afterStateUpdated(function ($record, $state) {
                         if ($state === 'kembali') {
                             $record->tgl_kembali = now();
@@ -62,8 +87,9 @@ class PeminjamenTable
 
                             Notification::make()
                                 ->success()
-                                ->title('Buku Dikembalikan')
-                                ->body("Buku '{$record->buku->judul}' telah dikembalikan oleh {$record->siswa->nama}.")
+                                ->title('Buku Berhasil Dikembalikan')
+                                ->body("{$record->bukus->count()} buku dari {$record->siswa->nama} telah dikembalikan")
+                                ->icon('heroicon-o-check-badge')
                                 ->send();
                         } elseif ($state === 'dipinjam') {
                             $record->tgl_kembali = null;
@@ -72,60 +98,68 @@ class PeminjamenTable
                             Notification::make()
                                 ->warning()
                                 ->title('Status Diubah ke Dipinjam')
-                                ->body("Buku '{$record->buku->judul}' kembali dipinjam oleh {$record->siswa->nama}.")
+                                ->body("Peminjaman {$record->siswa->nama} kembali aktif")
+                                ->icon('heroicon-o-arrow-path')
                                 ->send();
                         }
                     }),
 
                 TextColumn::make('created_at')
-                    ->dateTime('d/m/Y H:i')
+                    ->label('Dibuat Pada')
+                    ->dateTime('d M Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
-                    ->dateTime('d/m/Y H:i')
+                    ->label('Diupdate Pada')
+                    ->dateTime('d M Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
-                // Filter Status Peminjaman
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label('Status Peminjaman')
                     ->options([
-                        'dipinjam' => 'Dipinjam',
-                        'kembali' => 'Kembali',
+                        'dipinjam' => 'Sedang Dipinjam',
+                        'kembali' => 'Sudah Kembali',
                     ])
                     ->native(false),
 
-                // Filter Siswa
-                SelectFilter::make('siswa_id')
+                SelectFilter::make('siswa')
                     ->label('Siswa')
                     ->relationship('siswa', 'nama')
                     ->searchable()
                     ->preload()
                     ->native(false),
 
-                // Filter Buku
-                SelectFilter::make('buku_id')
-                    ->label('Buku')
-                    ->relationship('buku', 'judul')
-                    ->searchable()
-                    ->preload()
-                    ->native(false),
-
-                // Filter Terlambat
                 Filter::make('terlambat')
-                    ->label('Buku Terlambat')
-                    ->query(fn(Builder $query): Builder => $query
-                        ->where('status', 'dipinjam')
-                        ->where('tgl_kembali_seharusnya', '<', now()->toDateString()))
+                    ->label('Terlambat Kembali')
+                    ->query(
+                        fn(Builder $query): Builder =>
+                        $query->where('status', 'dipinjam')
+                            ->where('tgl_kembali_seharusnya', '<', now())
+                    )
                     ->toggle(),
 
-                // Filter Belum Dikembalikan
-                Filter::make('belum_dikembalikan')
-                    ->label('Belum Dikembalikan')
-                    ->query(fn(Builder $query): Builder => $query->where('status', 'dipinjam'))
-                    ->toggle(),
+                Filter::make('tgl_pinjam')
+                    ->form([
+                        \Filament\Forms\Components\DatePicker::make('dari')
+                            ->label('Dari Tanggal'),
+                        \Filament\Forms\Components\DatePicker::make('sampai')
+                            ->label('Sampai Tanggal'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['dari'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('tgl_pinjam', '>=', $date),
+                            )
+                            ->when(
+                                $data['sampai'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('tgl_pinjam', '<=', $date),
+                            );
+                    }),
             ])
             ->recordActions([
                 EditAction::make(),
@@ -134,6 +168,9 @@ class PeminjamenTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateHeading('Belum Ada Data Peminjaman')
+            ->emptyStateDescription('Mulai tambahkan data peminjaman buku dengan klik tombol di atas.')
+            ->emptyStateIcon('heroicon-o-book-open');
     }
 }

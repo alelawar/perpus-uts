@@ -10,9 +10,14 @@ class Peminjaman extends Model
 
     protected $table = 'peminjaman';
 
-    public function buku()
+    public function bukus()
     {
-        return parent::belongsTo(Buku::class, 'buku_id', 'id');
+        return $this->belongsToMany(
+            Buku::class,
+            'buku_peminjaman',
+            'peminjaman_id',
+            'buku_id'
+        )->withTimestamps();
     }
     public function siswa()
     {

@@ -48,9 +48,9 @@ class BukusTable
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->alignCenter(),
 
-                TextColumn::make('peminjaman_count')
+                TextColumn::make('buku_peminjamans_count')
                     ->label('Total Dipinjam')
-                    ->counts('peminjaman')
+                    ->counts('bukuPeminjamans')
                     ->sortable()
                     ->alignCenter()
                     ->badge()

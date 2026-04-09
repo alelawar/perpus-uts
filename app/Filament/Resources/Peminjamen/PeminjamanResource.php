@@ -13,22 +13,16 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 
 class PeminjamanResource extends Resource
 {
     protected static ?string $model = Peminjaman::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookmarkSquare;
 
     public static function form(Schema $schema): Schema
     {
         return PeminjamanForm::configure($schema);
-    }
-
-    public static function getSlug(\Filament\Panel $panel = null): string
-    {
-        return 'peminjaman';
     }
 
     public static function table(Table $table): Table
