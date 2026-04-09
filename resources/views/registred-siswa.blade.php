@@ -292,11 +292,6 @@
             errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // Hide captcha error message
-        function hideCaptchaError() {
-            const errorDiv = document.getElementById('captcha-error');
-            errorDiv.classList.add('hidden');
-        }
 
         // Validate captcha before submit
         function validateCaptcha(event) {
