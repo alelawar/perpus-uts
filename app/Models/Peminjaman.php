@@ -10,11 +10,11 @@ class Peminjaman extends Model
 
     protected $table = 'peminjaman';
 
-    public function buku($related, $foreignKey = null, $ownerKey = null, $relation = null)
+    public function buku()
     {
         return parent::belongsTo(Buku::class, 'buku_id', 'id');
     }
-    public function siswa($related, $foreignKey = null, $ownerKey = null, $relation = null)
+    public function siswa()
     {
         return parent::belongsTo(Siswa::class, 'siswa_id', 'id');
     }
