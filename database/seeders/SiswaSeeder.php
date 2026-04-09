@@ -33,6 +33,24 @@ class SiswaSeeder extends Seeder
                 'tgl_masuk' => Carbon::parse('2023-07-01'),
                 'point' => 100,
             ],
+            [
+                'nama' => 'Paris',
+                'nis' => '12347',
+                'no_telp' => '12212114',
+                'kelas' => 'X',
+                'jurusan' => 'TKJ',
+                'tgl_masuk' => Carbon::parse('2023-07-01'),
+                'point' => 100,
+            ],
+            [
+                'nama' => 'Xcel',
+                'nis' => '12348',
+                'no_telp' => '12212115',
+                'kelas' => 'X',
+                'jurusan' => 'TKJ',
+                'tgl_masuk' => Carbon::parse('2023-07-01'),
+                'point' => 100,
+            ],
         ]);
     }
 }

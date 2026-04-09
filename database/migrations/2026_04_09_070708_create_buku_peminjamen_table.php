@@ -21,7 +21,6 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['peminjaman_id', 'buku_id']);
         });
     }
 
