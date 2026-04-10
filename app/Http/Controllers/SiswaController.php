@@ -36,6 +36,12 @@ class SiswaController extends Controller
                 'unique:siswa,nis',
                 'max:20'
             ],
+            'email' => [
+                'required',
+                'string',
+                'unique:siswa,email',
+                'max:200'
+            ],
             'no_telp' => [
                 'required',
                 'string',
@@ -68,6 +74,10 @@ class SiswaController extends Controller
             'nis.required' => 'NIS wajib diisi',
             'nis.unique' => 'NIS sudah terdaftar di sistem',
             'nis.max' => 'NIS maksimal 20 karakter',
+
+            'email.required' => 'Email wajib diisi',
+            'email.unique' => 'Email sudah terdaftar di sistem',
+            'email.max' => 'Email maksimal 200 karakter',
 
             'no_telp.required' => 'Nomor telepon wajib diisi',
             'no_telp.unique' => 'Nomor telepon sudah terdaftar',

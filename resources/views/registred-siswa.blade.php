@@ -84,6 +84,26 @@
                                     @enderror
                                 </div>
 
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        Email Lengkap <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="email" 
+                                           name="email" 
+                                           value="{{ old('email') }}"
+                                           class="w-full px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('email') ? 'border-red-500 bg-red-50' : 'border-gray-300' }}"
+                                           placeholder="Masukkan email aktif"
+                                           required>
+                                    @error('email')
+                                    <div class="flex items-start gap-2 mt-2">
+                                        <svg class="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <p class="text-xs text-red-600">{{ $message }}</p>
+                                    </div>
+                                    @enderror
+                                </div>
+
                                 <!-- NIS -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
