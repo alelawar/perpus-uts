@@ -34,7 +34,7 @@ class Siswa extends Model
 
     public function generateQrCode()
     {
-        $url = config('app.url') . "/admin/peminjaman?search={$this->nis}";
+        $url = "{$this->nis}";
 
         $qrCode = QrCode::format('png')
             ->size(300)
@@ -46,7 +46,7 @@ class Siswa extends Model
 
     public function getQrCodeInlineAttribute()
     {
-        $url = config('app.url') . "/admin/peminjaman?search={$this->nis}";
+        $url = "{$this->nis}";
 
         return QrCode::format('svg')
             ->size(300)
