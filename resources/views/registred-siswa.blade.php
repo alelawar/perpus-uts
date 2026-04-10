@@ -343,7 +343,7 @@
             }
             
             // Captcha benar, submit form
-            hideCaptchaError();
+            // hideCaptchaError();
             document.getElementById('registration-form').submit();
         }
 
