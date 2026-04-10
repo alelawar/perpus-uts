@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PeminjamanResource extends Resource
 {
@@ -23,6 +24,11 @@ class PeminjamanResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return PeminjamanForm::configure($schema);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->orderBy('id', 'desc');
     }
 
     public static function getSlug(\Filament\Panel $panel = null): string

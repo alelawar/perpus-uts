@@ -12,12 +12,7 @@ class Peminjaman extends Model
 
     public function bukus()
     {
-        return $this->belongsToMany(
-            Buku::class,
-            'buku_peminjaman',
-            'peminjaman_id',
-            'buku_id'
-        )->withTimestamps();
+        return $this->hasMany(BukuPeminjaman::class);
     }
     public function siswa()
     {

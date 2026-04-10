@@ -97,12 +97,12 @@ class PeminjamanForm
                                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->native(false)
                                     ->columnSpan('full')
-                                    ->minItems(1)
-                                    ->maxItems(5)
                                     ->reorderable()
                                     ->columns(1)
                                     ->columnSpanFull(),
                             ])
+                            ->minItems(1)
+                            ->maxItems(5)
                             ->addAction(fn($action) => $action->color('primary')->label('Tambah Item Baru')),
 
                     ]),

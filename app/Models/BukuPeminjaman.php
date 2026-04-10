@@ -9,4 +9,9 @@ class BukuPeminjaman extends Model
     protected $guarded = [];
 
     protected $table = 'buku_peminjaman';
+
+    public function buku()
+    {
+        return $this->belongsTo(Buku::class);
+    }
 }
