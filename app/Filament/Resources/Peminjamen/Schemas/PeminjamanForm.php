@@ -33,6 +33,15 @@ class PeminjamanForm
                             ->required()
                             ->native(false)
                             ->live()
+                            ->default(function () {
+                                $nis = request()->query('nis');
+
+                                if (!$nis) return null;
+
+                                $siswa = Siswa::where('nis', $nis)->first();
+
+                                return $siswa?->id;
+                            })
                             ->afterStateHydrated(function ($state, callable $set) {
                                 if ($state) {
                                     $siswa = Siswa::find($state);

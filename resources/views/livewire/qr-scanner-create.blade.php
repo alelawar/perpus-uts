@@ -28,7 +28,7 @@
                     this.statusColor = 'green';
                     
                     this.qrReader.stop().then(() => {
-                        window.location.href = `http://127.0.0.1:8000/admin/peminjaman?search=${encodeURIComponent(decodedText)}`;
+                        window.location.href = `http://127.0.0.1:8000/admin/peminjaman/create?nis=${encodeURIComponent(decodedText)}`;
                     });
                 }
             ).then(() => {

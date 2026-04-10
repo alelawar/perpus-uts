@@ -7,6 +7,7 @@ use App\Livewire\ScanQrModal;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Icons\Heroicon;
 
 class ListPeminjamen extends ListRecords
 {
@@ -15,14 +16,26 @@ class ListPeminjamen extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
 
             Action::make('scan_qr')
-                ->label('Scan QR')
+                ->label('Scan QR (CARI)')
                 ->icon('heroicon-o-qr-code')
-                ->modalHeading('Scan QR Siswa')
+                ->modalHeading('Cari Data Siswa')
+                ->color('warning')
                 ->modalSubmitAction(false) // ga butuh tombol submit
                 ->modalContent(view('livewire.scan-qr-modal')),
+
+            Action::make('scan_qr_create')
+                ->label('Scan QR (Buat)')
+                ->icon('heroicon-o-qr-code')
+                ->color('success')
+                ->modalHeading('Buat Data Peminjaman Siswa')
+                ->modalSubmitAction(false) // ga butuh tombol submit
+                ->modalContent(view('livewire.qr-scanner-create')),
+
+            CreateAction::make()
+                ->icon(Heroicon::Plus),
+
         ];
     }
 }
