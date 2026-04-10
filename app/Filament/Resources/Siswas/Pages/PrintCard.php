@@ -13,6 +13,9 @@ class PrintCard extends Page
 
     protected string $view = 'filament.resources.siswas.pages.print-card';
 
+    protected static bool $shouldRegisterNavigation = false;
+
+
     public Siswa $siswa;
 
     public function mount(int|string $record): void

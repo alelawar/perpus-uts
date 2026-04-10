@@ -1,260 +1,134 @@
 <x-filament-panels::page>
+    <style>
+        @media print {
+            @page { margin: 15mm; size: A4 portrait; }
+            body, html { background: white !important; }
+            
+            /* 1. HANYA hide elemen UI yang jelas-jelas tidak perlu */
+            header, nav, .fi-sidebar, .fi-topbar, footer, .fi-breadcrumbs, .no-print { 
+                display: none !important; 
+            }
+            
+            /* 2. Reset padding/margin wrapper Filament agar tidak geser */
+            .fi-main, .fi-page-content { 
+                padding: 0 !important; 
+                margin: 0 !important; 
+                width: 100% !important; 
+                background: white !important;
+            }
+
+            /* 3. Posisikan container tepat di tengah halaman print */
+            .print-container {
+                position: absolute !important;
+                top: 25mm !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                width: auto !important;
+                z-index: 9999 !important;
+            }
+            
+            .card-preview-wrapper { background: transparent !important; padding: 0 !important; }
+            
+            /* 4. Styling khusus kartu saat print */
+            .student-card {
+                width: 85.6mm !important;
+                height: 54mm !important;
+                box-shadow: none !important;
+                border: 1.5px solid #000 !important;
+                border-radius: 0 !important;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+    </style>
+
     <div class="print-container">
-        {{-- Button Print --}}
-        <div class="no-print mb-4 flex justify-end gap-2">
+        {{-- Button Actions (Hidden saat print) --}}
+        <div class="no-print mb-6 flex justify-end gap-3">
             <x-filament::button 
                 wire:click="$refresh"
                 color="gray"
                 icon="heroicon-o-arrow-path"
+                size="sm"
             >
                 Refresh
             </x-filament::button>
             
             <x-filament::button 
                 onclick="window.print()"
-                color="success"
+                color="primary"
                 icon="heroicon-o-printer"
+                size="sm"
             >
                 Print Kartu
             </x-filament::button>
         </div>
 
-        {{-- Card Content --}}
-        <div class="student-card">
-            <div class="card-header">
-                <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo" class="logo">
-                <div class="school-info">
-                    <h2>SEKOLAH MENENGAH ATAS</h2>
-                    <h3>SMA NEGERI 1 EXAMPLE</h3>
-                    <p>Jl. Example No. 123, Kota Example</p>
-                </div>
-            </div>
-
-            <div class="card-body">
-                <div class="student-info">
-                    @if($siswa->foto)
-                        <img src="{{ Storage::url($siswa->foto) }}" alt="Foto" class="photo">
-                    @else
-                        <div class="photo-placeholder">
-                            <span>Foto</span>
+        {{-- Preview Card --}}
+        <div class="card-preview-wrapper flex justify-center items-center min-h-[300px] p-6 bg-gray-50 rounded-2xl print:bg-transparent print:p-0 print:min-h-0">
+            <div class="student-card relative w-[340px] aspect-[856/540] bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 print:w-[85.6mm] print:h-[54mm] print:rounded-none print:shadow-none print:border-2 print:border-black">
+                
+                {{-- Header --}}
+                <div class="bg-gradient-to-r from-blue-700 to-indigo-800 p-3 text-white print:bg-blue-800">
+                    <div class="flex items-center gap-2">
+                        <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo" class="w-10 h-10 bg-white rounded-full p-1 object-contain print:border print:border-gray-300">
+                        <div class="flex-1 leading-tight">
+                            <h2 class="text-[10px] font-bold uppercase tracking-wider">SEKOLAH MENENGAH ATAS</h2>
+                            <h3 class="text-xs font-semibold">SMA NEGERI 1 EXAMPLE</h3>
+                            <p class="text-[9px] opacity-90 mt-0.5">Jl. Example No. 123, Kota Example</p>
                         </div>
-                    @endif
-                    
-                    <div class="details">
-                        <table>
-                            <tr>
-                                <td class="label">NIS</td>
-                                <td class="separator">:</td>
-                                <td class="value">{{ $siswa->nis }}</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Nama</td>
-                                <td class="separator">:</td>
-                                <td class="value">{{ $siswa->nama }}</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Kelas</td>
-                                <td class="separator">:</td>
-                                <td class="value">{{ $siswa->kelas ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Jurusan</td>
-                                <td class="separator">:</td>
-                                <td class="value">{{ $siswa->jurusan ?? '-' }}</td>
-                            </tr>
-                        </table>
                     </div>
                 </div>
 
-                <div class="qr-section">
-                    {{-- Render SVG inline pakai {!! !!} --}}
-                    <div class="qr-code-svg">
-                        {!! $siswa->qr_code_inline !!}
+                {{-- Body --}}
+                <div class="px-3 pt-3 flex gap-3">
+                    {{-- Details --}}
+                    <div class="flex-1 text-[10px] space-y-1 print:text-black">
+                        <div class="flex gap-1">
+                            <span class="w-10 font-medium text-gray-600 print:text-gray-700">NIS</span>
+                            <span class="text-gray-400">:</span>
+                            <span class="font-semibold text-gray-900 truncate">{{ $siswa->nis ?? '-' }}</span>
+                        </div>
+                        <div class="flex gap-1">
+                            <span class="w-10 font-medium text-gray-600 print:text-gray-700">Nama</span>
+                            <span class="text-gray-400">:</span>
+                            <span class="font-semibold text-gray-900 truncate">{{ $siswa->nama ?? '-' }}</span>
+                        </div>
+                        <div class="flex gap-1">
+                            <span class="w-10 font-medium text-gray-600 print:text-gray-700">Kelas</span>
+                            <span class="text-gray-400">:</span>
+                            <span class="font-semibold text-gray-900 truncate">{{ $siswa->kelas ?? '-' }}</span>
+                        </div>
+                        <div class="flex gap-1">
+                            <span class="w-10 font-medium text-gray-600 print:text-gray-700">Jurusan</span>
+                            <span class="text-gray-400">:</span>
+                            <span class="font-semibold text-gray-900 truncate">{{ $siswa->jurusan ?? '-' }}</span>
+                        </div>
                     </div>
-                    <p class="qr-label">Scan untuk data peminjaman</p>
-                </div>
-            </div>
 
-            <div class="card-footer">
-                <p>Berlaku s.d: {{ now()->addYear()->format('d/m/Y') }}</p>
+                    {{-- QR Code --}}
+                    <div class="flex-shrink-0 flex flex-col items-center justify-center">
+                        <div class="w-20 h-20 bg-white p-1 rounded border border-gray-200 flex items-center justify-center print:border-gray-400">
+                            {!! $siswa->qr_code_inline ?? '<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 text-[8px]">QR</div>' !!}
+                        </div>
+                        <span class="text-[8px] text-gray-500 mt-1 print:text-black">Scan QR</span>
+                    </div>
+                </div>
+
+                {{-- Footer --}}
+                <div class="px-3 pb-2 pt-0 flex justify-between items-end border-t border-gray-100 print:border-gray-400">
+                    <div class="text-[9px] text-gray-600 print:text-black">
+                        <span class="block">Berlaku hingga:</span>
+                        <span class="font-semibold text-gray-900">{{ now()->addYear()->format('d M Y') }}</span>
+                    </div>
+                </div>
+
+                {{-- Badge --}}
+                <div class="absolute top-0 right-0 bg-yellow-500 text-white text-[8px] font-bold px-2 py-0.5 rounded-bl-lg print:bg-yellow-600 print:text-black print:bg-none print:border-l print:border-b print:border-yellow-700">
+                    KARTU PERPUSTAKAAN
+                </div>
             </div>
         </div>
     </div>
-
-    <style>
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-            
-            body * {
-                visibility: hidden;
-            }
-            
-            .student-card, .student-card * {
-                visibility: visible;
-            }
-            
-            .student-card {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-            }
-            
-            @page {
-                size: 8.5cm 5.5cm;
-                margin: 0;
-            }
-        }
-
-        .print-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .student-card {
-            width: 8.5cm;
-            height: 5.5cm;
-            border: 2px solid #2563eb;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 0.5cm;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            font-family: 'Arial', sans-serif;
-            color: white;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.3cm;
-            padding-bottom: 0.3cm;
-            border-bottom: 2px solid rgba(255,255,255,0.3);
-            margin-bottom: 0.3cm;
-        }
-
-        .logo {
-            width: 1cm;
-            height: 1cm;
-            object-fit: contain;
-            background: white;
-            border-radius: 4px;
-            padding: 2px;
-        }
-
-        .school-info h2 {
-            font-size: 8pt;
-            font-weight: bold;
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .school-info h3 {
-            font-size: 10pt;
-            font-weight: bold;
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .school-info p {
-            font-size: 6pt;
-            margin: 0;
-            opacity: 0.9;
-        }
-
-        .card-body {
-            display: flex;
-            gap: 0.4cm;
-        }
-
-        .student-info {
-            flex: 1;
-            display: flex;
-            gap: 0.3cm;
-        }
-
-        .photo, .photo-placeholder {
-            width: 2cm;
-            height: 2.5cm;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 2px solid white;
-        }
-
-        .photo-placeholder {
-            background: rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8pt;
-        }
-
-        .details table {
-            width: 100%;
-            font-size: 7pt;
-        }
-
-        .details .label {
-            font-weight: bold;
-            width: 1.5cm;
-        }
-
-        .details .separator {
-            width: 0.2cm;
-            text-align: center;
-        }
-
-        .details .value {
-            font-weight: normal;
-        }
-
-        .qr-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .qr-code-svg {
-            width: 2cm;
-            height: 2cm;
-            background: white;
-            padding: 0.1cm;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-
-        .qr-placeholder {
-            width: 2cm;
-            height: 2cm;
-            background: rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 6pt;
-            border-radius: 4px;
-        }
-
-        .qr-label {
-            font-size: 5pt;
-            margin-top: 0.1cm;
-            text-align: center;
-            opacity: 0.9;
-        }
-
-        .card-footer {
-            margin-top: 0.2cm;
-            padding-top: 0.2cm;
-            border-top: 1px solid rgba(255,255,255,0.3);
-            text-align: center;
-            font-size: 6pt;
-            opacity: 0.8;
-        }
-    </style>
 </x-filament-panels::page>
