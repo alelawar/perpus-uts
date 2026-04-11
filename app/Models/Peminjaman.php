@@ -10,6 +10,12 @@ class Peminjaman extends Model
 
     protected $table = 'peminjaman';
 
+    protected $casts = [
+        'tgl_pinjam' => 'date',
+        'tgl_kembali_seharusnya' => 'date',
+        'tgl_kembali' => 'date',
+    ];
+
     public function bukus()
     {
         return $this->hasMany(BukuPeminjaman::class);

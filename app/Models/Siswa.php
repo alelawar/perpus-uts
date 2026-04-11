@@ -18,31 +18,31 @@ class Siswa extends Model
     }
 
 
-    protected static function booted()
-    {
-        static::created(function ($siswa) {
-            $siswa->generateQrCode();
-        });
+    // protected static function booted()
+    // {
+    //     static::created(function ($siswa) {
+    //         $siswa->generateQrCode();
+    //     });
 
-        static::updated(function ($siswa) {
-            // Re-generate kalo NIS berubah
-            if ($siswa->isDirty('nis')) {
-                $siswa->generateQrCode();
-            }
-        });
-    }
+    //     static::updated(function ($siswa) {
+    //         // Re-generate kalo NIS berubah
+    //         if ($siswa->isDirty('nis')) {
+    //             $siswa->generateQrCode();
+    //         }
+    //     });
+    // }
 
-    public function generateQrCode()
-    {
-        $url = "{$this->nis}";
+    // public function generateQrCode()
+    // {
+    //     $url = "{$this->nis}";
 
-        $qrCode = QrCode::format('png')
-            ->size(300)
-            ->margin(1)
-            ->generate($url);
+    //     $qrCode = QrCode::format('png')
+    //         ->size(300)
+    //         ->margin(1)
+    //         ->generate($url);
 
-        Storage::disk('public')->put("qrcodes/{$this->nis}.png", $qrCode);
-    }
+    //     Storage::disk('public')->put("qrcodes/{$this->nis}.png", $qrCode);
+    // }
 
     public function getQrCodeInlineAttribute()
     {
