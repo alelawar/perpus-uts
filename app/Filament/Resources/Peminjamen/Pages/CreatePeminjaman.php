@@ -3,10 +3,12 @@
 namespace App\Filament\Resources\Peminjamen\Pages;
 
 use App\Filament\Resources\Peminjamen\PeminjamanResource;
+use App\Mail\PeminjamanCreatedMail;
 use App\Models\Buku;
 use App\Models\Siswa;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class CreatePeminjaman extends CreateRecord
 {
@@ -58,6 +60,15 @@ class CreatePeminjaman extends CreateRecord
             ->body('Stok buku telah dikurangi secara otomatis.')
             ->success()
             ->send();
+
+        if ($peminjaman->siswa && $peminjaman->siswa->email) {
+           try {
+                Mail::to($peminjaman->siswa->email)
+                    ->send(new PeminjamanCreatedMail($peminjaman));
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+        }
     }
 
     /**

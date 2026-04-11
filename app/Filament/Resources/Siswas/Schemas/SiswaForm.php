@@ -24,6 +24,17 @@ class SiswaForm
                             ->maxLength(255)
                             ->columnSpanFull(),
 
+                        TextInput::make('email')
+                            ->label('Email (Email aktif Siswa)')
+                            ->unique('siswa', 'email', ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'Email sudah digunakan, silakan pakai yang lain.',
+                                'required' => 'Email wajib diisi.',
+                            ])
+                            ->required()
+                            ->columnSpanFull()
+                            ->maxLength(20),
+
                         TextInput::make('nis')
                             ->label('NIS (Nomor Induk Siswa)')
                             ->unique('siswa', 'nis', ignoreRecord: true)

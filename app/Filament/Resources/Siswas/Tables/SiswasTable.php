@@ -29,6 +29,8 @@ class SiswasTable
                     ->copyable()
                     ->icon(Heroicon::ClipboardDocument)
                     ->searchable(),
+                TextColumn::make('email')
+                    ->searchable(),
                 TextColumn::make('no_telp')
                     ->searchable(),
                 TextColumn::make('kelas')
