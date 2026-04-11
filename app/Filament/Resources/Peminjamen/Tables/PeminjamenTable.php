@@ -166,7 +166,19 @@ class PeminjamenTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                    ->before(function ($records, $action) {
+                        if ($records->contains(fn ($record) => $record->status === 'dipinjam')) {
+
+                            Notification::make()
+                                ->title('Gagal hapus')
+                                ->body('Ada data yang masih dipinjam!, pastikan data yang dipilih sudah dikembalikan!')
+                                ->danger()
+                                ->send();
+
+                            $action->cancel(); 
+                        }
+                    })
                 ]),
             ])
             ->emptyStateHeading('Belum Ada Data Peminjaman')

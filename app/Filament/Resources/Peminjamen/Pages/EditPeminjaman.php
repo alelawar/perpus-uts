@@ -18,7 +18,8 @@ class EditPeminjaman extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+           DeleteAction::make()
+                ->disabled(fn ($record) => $record->status === 'dipinjam')
         ];
     }
 

@@ -171,6 +171,7 @@ class PeminjamanForm
                                 }
                             }),
                     ])
+                    ->hiddenOn('create')
             ]);
     }
 }
