@@ -61,48 +61,64 @@ class PeminjamenTable
                     ->label('Tanggal Kembali')
                     ->date('d M Y')
                     ->sortable()
+                    ->color('success')
                     ->icon('heroicon-o-check-circle')
                     ->placeholder('Belum Kembali')
                     ->toggleable(),
 
-                SelectColumn::make('status')
+                // SelectColumn::make('status')
+                //     ->label('Status')
+                //     ->options([
+                //         'dipinjam' => '<span class="text-amber-500">Dipinjam</span>',
+                //         'kembali' => '<span class="text-green-500">Kembali</span>',
+                //     ])
+                //     ->allowOptionsHtml()
+                //     ->native(false)
+                //     ->selectablePlaceholder(false)
+                //     ->beforeStateUpdated(function ($record, $state) {
+                //         // Validasi: cek apakah ada perubahan status
+                //         if ($record->status === $state) {
+                //             return false;
+                //         }
+                //     })
+                //     ->afterStateUpdated(function ($record, $state) {
+                //         if ($state === 'kembali') {
+                //             $record->tgl_kembali = now();
+                //             $record->save();
+
+                //             Notification::make()
+                //                 ->success()
+                //                 ->title('Buku Berhasil Dikembalikan')
+                //                 ->body("{$record->bukus->count()} buku dari {$record->siswa->nama} telah dikembalikan")
+                //                 ->icon('heroicon-o-check-badge')
+                //                 ->send();
+                //         } elseif ($state === 'dipinjam') {
+                //             $record->tgl_kembali = null;
+                //             $record->save();
+
+                //             Notification::make()
+                //                 ->warning()
+                //                 ->title('Status Diubah ke Dipinjam')
+                //                 ->body("Peminjaman {$record->siswa->nama} kembali aktif")
+                //                 ->icon('heroicon-o-arrow-path')
+                //                 ->send();
+                //         }
+                //     }),
+
+                TextColumn::make('status')
                     ->label('Status')
-                    ->options([
-                        'dipinjam' => '<span class="text-amber-500">Dipinjam</span>',
-                        'kembali' => '<span class="text-green-500">Kembali</span>',
-                    ])
-                    ->allowOptionsHtml()
-                    ->native(false)
-                    ->selectablePlaceholder(false)
-                    ->beforeStateUpdated(function ($record, $state) {
-                        // Validasi: cek apakah ada perubahan status
-                        if ($record->status === $state) {
-                            return false;
-                        }
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'dipinjam' => 'warning',
+                        'kembali' => 'success',
+                        default => 'gray',
                     })
-                    ->afterStateUpdated(function ($record, $state) {
-                        if ($state === 'kembali') {
-                            $record->tgl_kembali = now();
-                            $record->save();
-
-                            Notification::make()
-                                ->success()
-                                ->title('Buku Berhasil Dikembalikan')
-                                ->body("{$record->bukus->count()} buku dari {$record->siswa->nama} telah dikembalikan")
-                                ->icon('heroicon-o-check-badge')
-                                ->send();
-                        } elseif ($state === 'dipinjam') {
-                            $record->tgl_kembali = null;
-                            $record->save();
-
-                            Notification::make()
-                                ->warning()
-                                ->title('Status Diubah ke Dipinjam')
-                                ->body("Peminjaman {$record->siswa->nama} kembali aktif")
-                                ->icon('heroicon-o-arrow-path')
-                                ->send();
-                        }
-                    }),
+                    ->icon(fn (string $state): string => match ($state) {
+                        'dipinjam' => 'heroicon-m-arrow-right-circle',
+                        'kembali' => 'heroicon-m-check-circle',
+                        default => 'heroicon-m-question-mark-circle',
+                    })
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
 
                 TextColumn::make('created_at')
                     ->label('Dibuat Pada')

@@ -37,6 +37,8 @@ class SiswasTable
                     ->badge()
                     ->searchable(),
                 TextColumn::make('jurusan')
+                    ->badge()
+                    ->color('success')
                     ->searchable(),
                 TextColumn::make('tgl_masuk')
                     ->date()
@@ -52,6 +54,8 @@ class SiswasTable
                 TextColumn::make('point')
                     ->numeric()
                     ->badge()
+                    ->alignCenter()
+                    ->icon(Heroicon::Star)
                     ->color(function ($state) {
                         if ($state >= 67) {
                             return 'success';

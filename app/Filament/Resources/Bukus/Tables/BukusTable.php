@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Bukus\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -55,9 +56,9 @@ class BukusTable
                     ->alignCenter()
                     ->badge()
                     ->color(fn(int $state): string => match (true) {
-                        $state >= 10 => 'success',
-                        $state >= 20 => 'info',
-                        $state >= 50 => 'warning',
+                        $state >= 5 => 'success',
+                        $state >= 2 => 'info',
+                        $state >= 1 => 'warning',
                         default => 'gray',
                     })
                     ->icon('heroicon-o-arrow-trending-up')
@@ -77,12 +78,14 @@ class BukusTable
 
                 TextColumn::make('rak')
                     ->label('Rak')
+                    ->icon(Heroicon::MapPin)
                     ->searchable()
                     ->badge()
                     ->color('info'),
 
                 TextColumn::make('hambalan')
                     ->label('Hambalan')
+                    ->badge()
                     ->searchable()
                     ->toggleable(),
 
