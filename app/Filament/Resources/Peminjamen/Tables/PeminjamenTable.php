@@ -37,9 +37,10 @@ class PeminjamenTable
                     ->color('info')
                     ->alignCenter(),
 
-                TextColumn::make('bukus.judul')
+                TextColumn::make('bukus.buku.judul')
                     ->label('Buku yang Dipinjam')
                     ->listWithLineBreaks()
+                    ->bulleted()
                     ->limitList(3)
                     ->expandableLimitedList()
                     ->searchable(),
