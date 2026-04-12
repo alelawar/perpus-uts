@@ -16,6 +16,7 @@ class PeminjamanChartWidget extends ChartWidget
     protected function getData(): array
     {
         $data = Trend::model(Peminjaman::class)
+            ->dateColumn('tgl_pinjam')
             ->between(
                 start: now()->subMonths(11),
                 end: now(),

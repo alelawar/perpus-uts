@@ -16,8 +16,8 @@ class PeminjamanPerHariWidget extends ChartWidget
     protected function getData(): array
     {
         $data = Peminjaman::query()
-            ->where('created_at', '>=', now()->subDays(7))
-            ->select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->where('tgl_pinjam', '>=', now()->subDays(7))
+            ->select(DB::raw('DATE(tgl_pinjam) as date'), DB::raw('count(*) as count'))
             ->groupBy('date')
             ->orderBy('date')
             ->get();
