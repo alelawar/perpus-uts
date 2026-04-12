@@ -13,11 +13,10 @@ class OverduePointsDeductionTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Test that points are deducted for overdue loans (1 day overdue)
+     * Test bahwa poin dikurangi untuk keterlambatan 1 hari
      */
-    public function test_points_deducted_for_one_day_overdue_loan(): void
+    public function test_poin_dikurangi_untuk_keterlambatan_satu_hari(): void
     {
-        // Arrange: Create a student with 100 points
         $siswa = Siswa::create([
             'nama' => 'Budi Santoso',
             'nis' => '12345',
@@ -31,29 +30,25 @@ class OverduePointsDeductionTest extends TestCase
             'point' => 100,
         ]);
 
-        // Create an overdue loan (1 day overdue)
         Peminjaman::create([
             'siswa_id' => $siswa->id,
             'tgl_pinjam' => now()->subDays(8),
-            'tgl_kembali_seharusnya' => now()->subDay(), // Yesterday
+            'tgl_kembali_seharusnya' => now()->subDay(),
             'tgl_kembali' => null,
             'status' => 'dipinjam',
         ]);
 
-        // Act: Run the deduction command
         Artisan::call('peminjaman:deduct-overdue-points');
 
-        // Assert: Points should be deducted by 20
         $siswa->refresh();
         $this->assertEquals(80, $siswa->point);
     }
 
     /**
-     * Test that points are deducted for multiple days overdue
+     * Test bahwa poin dikurangi untuk keterlambatan beberapa hari
      */
-    public function test_points_deducted_for_multiple_days_overdue(): void
+    public function test_poin_dikurangi_untuk_keterlambatan_beberapa_hari(): void
     {
-        // Arrange: Create a student with 100 points
         $siswa = Siswa::create([
             'nama' => 'Siti Aminah',
             'nis' => '12346',
@@ -67,29 +62,25 @@ class OverduePointsDeductionTest extends TestCase
             'point' => 100,
         ]);
 
-        // Create a loan that is 3 days overdue
         Peminjaman::create([
             'siswa_id' => $siswa->id,
             'tgl_pinjam' => now()->subDays(10),
-            'tgl_kembali_seharusnya' => now()->subDays(3), // 3 days ago
+            'tgl_kembali_seharusnya' => now()->subDays(3),
             'tgl_kembali' => null,
             'status' => 'dipinjam',
         ]);
 
-        // Act: Run the deduction command
         Artisan::call('peminjaman:deduct-overdue-points');
 
-        // Assert: Points should be deducted by 60 (20 * 3 days)
         $siswa->refresh();
         $this->assertEquals(40, $siswa->point);
     }
 
     /**
-     * Test that points are NOT deducted for loans that are not yet overdue
+     * Test bahwa poin TIDAK dikurangi jika belum jatuh tempo
      */
-    public function test_no_points_deducted_for_loans_not_overdue(): void
+    public function test_poin_tidak_dikurangi_jika_belum_jatuh_tempo(): void
     {
-        // Arrange: Create a student with 100 points
         $siswa = Siswa::create([
             'nama' => 'Ahmad Rizki',
             'nis' => '12347',
@@ -103,29 +94,25 @@ class OverduePointsDeductionTest extends TestCase
             'point' => 100,
         ]);
 
-        // Create a loan due tomorrow
         Peminjaman::create([
             'siswa_id' => $siswa->id,
             'tgl_pinjam' => now()->subDays(5),
-            'tgl_kembali_seharusnya' => now()->addDay(), // Tomorrow
+            'tgl_kembali_seharusnya' => now()->addDay(),
             'tgl_kembali' => null,
             'status' => 'dipinjam',
         ]);
 
-        // Act: Run the deduction command
         Artisan::call('peminjaman:deduct-overdue-points');
 
-        // Assert: Points should remain the same
         $siswa->refresh();
         $this->assertEquals(100, $siswa->point);
     }
 
     /**
-     * Test that points are NOT deducted for returned loans
+     * Test bahwa poin TIDAK dikurangi jika buku sudah dikembalikan
      */
-    public function test_no_points_deducted_for_returned_loans(): void
+    public function test_poin_tidak_dikurangi_jika_sudah_dikembalikan(): void
     {
-        // Arrange: Create a student with 100 points
         $siswa = Siswa::create([
             'nama' => 'Rina Wati',
             'nis' => '12348',
@@ -139,29 +126,25 @@ class OverduePointsDeductionTest extends TestCase
             'point' => 100,
         ]);
 
-        // Create a loan that was overdue but already returned
         Peminjaman::create([
             'siswa_id' => $siswa->id,
             'tgl_pinjam' => now()->subDays(10),
             'tgl_kembali_seharusnya' => now()->subDays(3),
-            'tgl_kembali' => now(), // Already returned
+            'tgl_kembali' => now(),
             'status' => 'kembali',
         ]);
 
-        // Act: Run the deduction command
         Artisan::call('peminjaman:deduct-overdue-points');
 
-        // Assert: Points should remain the same (no deduction for returned loans)
         $siswa->refresh();
         $this->assertEquals(100, $siswa->point);
     }
 
     /**
-     * Test that points never go below zero
+     * Test bahwa poin tidak pernah menjadi negatif
      */
-    public function test_points_never_go_below_zero(): void
+    public function test_poin_tidak_boleh_kurang_dari_nol(): void
     {
-        // Arrange: Create a student with only 30 points
         $siswa = Siswa::create([
             'nama' => 'Eko Prasetyo',
             'nis' => '12349',
@@ -175,7 +158,6 @@ class OverduePointsDeductionTest extends TestCase
             'point' => 30,
         ]);
 
-        // Create a loan that is 5 days overdue (should deduct 100 points)
         Peminjaman::create([
             'siswa_id' => $siswa->id,
             'tgl_pinjam' => now()->subDays(12),
@@ -184,20 +166,17 @@ class OverduePointsDeductionTest extends TestCase
             'status' => 'dipinjam',
         ]);
 
-        // Act: Run the deduction command
         Artisan::call('peminjaman:deduct-overdue-points');
 
-        // Assert: Points should be 0, not negative
         $siswa->refresh();
         $this->assertEquals(0, $siswa->point);
     }
 
     /**
-     * Test that multiple overdue loans deduct points correctly
+     * Test bahwa beberapa peminjaman terlambat dihitung dengan benar
      */
-    public function test_multiple_overdue_loans_deduct_points_correctly(): void
+    public function test_beberapa_peminjaman_terlambat_dihitung_dengan_benar(): void
     {
-        // Arrange: Create a student with 200 points
         $siswa = Siswa::create([
             'nama' => 'Dewi Lestari',
             'nis' => '12350',
@@ -211,7 +190,6 @@ class OverduePointsDeductionTest extends TestCase
             'point' => 200,
         ]);
 
-        // Create first overdue loan (2 days)
         Peminjaman::create([
             'siswa_id' => $siswa->id,
             'tgl_pinjam' => now()->subDays(9),
@@ -220,7 +198,6 @@ class OverduePointsDeductionTest extends TestCase
             'status' => 'dipinjam',
         ]);
 
-        // Create second overdue loan (1 day)
         Peminjaman::create([
             'siswa_id' => $siswa->id,
             'tgl_pinjam' => now()->subDays(8),
@@ -229,20 +206,17 @@ class OverduePointsDeductionTest extends TestCase
             'status' => 'dipinjam',
         ]);
 
-        // Act: Run the deduction command
         Artisan::call('peminjaman:deduct-overdue-points');
 
-        // Assert: Points should be deducted by 60 (40 + 20)
         $siswa->refresh();
         $this->assertEquals(140, $siswa->point);
     }
 
     /**
-     * Test command output and success status
+     * Test command berjalan sukses dan output sesuai
      */
-    public function test_command_executes_successfully_and_outputs_correct_info(): void
+    public function test_command_berjalan_dengan_sukses(): void
     {
-        // Arrange: Create a student and overdue loan
         $siswa = Siswa::create([
             'nama' => 'Test Student',
             'nis' => '99999',
@@ -264,21 +238,18 @@ class OverduePointsDeductionTest extends TestCase
             'status' => 'dipinjam',
         ]);
 
-        // Act & Assert: Command should return success code 0
         $exitCode = Artisan::call('peminjaman:deduct-overdue-points');
         $this->assertEquals(0, $exitCode);
 
-        // Verify output contains success message
         $output = Artisan::output();
         $this->assertStringContainsString('Process completed successfully', $output);
     }
 
     /**
-     * Test that command handles case with no overdue loans gracefully
+     * Test command tetap aman jika tidak ada data keterlambatan
      */
-    public function test_command_handles_no_overdue_loans_gracefully(): void
+    public function test_command_tanpa_data_keterlambatan(): void
     {
-        // Arrange: Create students but no overdue loans
         Siswa::create([
             'nama' => 'Student Without Loans',
             'nis' => '88888',
@@ -292,12 +263,10 @@ class OverduePointsDeductionTest extends TestCase
             'point' => 100,
         ]);
 
-        // Act: Run the command
         $exitCode = Artisan::call('peminjaman:deduct-overdue-points');
 
-        // Assert: Command should complete successfully
         $this->assertEquals(0, $exitCode);
-        
+
         $output = Artisan::output();
         $this->assertStringContainsString('No overdue loans found', $output);
     }

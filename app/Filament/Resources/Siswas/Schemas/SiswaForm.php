@@ -73,7 +73,7 @@ class SiswaForm
                             ->label('Jurusan')
                             ->required()
                             ->maxLength(100)
-                            ->placeholder('Contoh: IPA, IPS, Teknik Komputer'),
+                            ->placeholder('Contoh: RPL, TKJ, DKV, PSPT'),
 
                         DatePicker::make('tgl_masuk')
                             ->label('Tanggal Masuk')

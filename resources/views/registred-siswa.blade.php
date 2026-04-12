@@ -190,7 +190,7 @@
                                            name="jurusan" 
                                            value="{{ old('jurusan') }}"
                                            class="w-full px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('jurusan') ? 'border-red-500 bg-red-50' : 'border-gray-300' }}"
-                                           placeholder="Contoh: IPA, IPS, TKJ"
+                                           placeholder="Contoh: RPL, TKJ, DKV, PSPT"
                                            required>
                                     @error('jurusan')
                                     <div class="flex items-start gap-2 mt-2">
