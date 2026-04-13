@@ -143,7 +143,7 @@ class SiswaSeeder extends Seeder
                 'kelas' => 'XII',
                 'jurusan' => 'RPL',
                 'tgl_masuk' => Carbon::parse('2021-07-01'),
-                'point' => 115,
+                'point' => 100,
             ],
             [
                 'nama' => 'Mizar Putra',
