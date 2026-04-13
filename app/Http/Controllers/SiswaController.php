@@ -103,12 +103,13 @@ class SiswaController extends Controller
             $siswa = Siswa::create([
                 'nama' => $request->nama,
                 'nis' => $request->nis,
+                'email' => $request->email,
                 'no_telp' => $request->no_telp,
                 'kelas' => $request->kelas,
                 'jurusan' => $request->jurusan,
                 'tgl_masuk' => $request->tgl_masuk,
                 'is_verified' => false,
-                'point' => 0,
+                'point' => 100,
             ]);
 
             DB::commit();
@@ -118,6 +119,8 @@ class SiswaController extends Controller
                 ->with('success', 'Registrasi berhasil! Data siswa ' . $siswa->nama . ' telah tersimpan. Silakan tunggu verifikasi dari admin.');
         } catch (\Exception $e) {
             DB::rollBack();
+
+            dd($e);
 
             // Jika terjadi error saat menyimpan
             return redirect()->back()

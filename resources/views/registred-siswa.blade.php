@@ -205,7 +205,7 @@
                                 <!-- Tanggal Masuk -->
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        Tanggal Masuk <span class="text-red-500">*</span>
+                                        Tanggal Masuk Sekolah <span class="text-red-500">*</span>
                                     </label>
                                     <input type="date" 
                                            name="tgl_masuk" 

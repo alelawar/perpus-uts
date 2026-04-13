@@ -75,8 +75,8 @@
                         <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo" class="w-10 h-10 bg-white rounded-full p-1 object-contain print:border print:border-gray-300">
                         <div class="flex-1 leading-tight">
                             <h2 class="text-[10px] font-bold uppercase tracking-wider">SEKOLAH MENENGAH ATAS</h2>
-                            <h3 class="text-xs font-semibold">SMA NEGERI 1 EXAMPLE</h3>
-                            <p class="text-[9px] opacity-90 mt-0.5">Jl. Example No. 123, Kota Example</p>
+                            <h3 class="text-xs font-semibold">SMK INFOKOM BOGOR</h3>
+                            <p class="text-[9px] opacity-90 mt-0.5">Jl. Letjen Ibrahim Adjie No.178, RT.03/RW.08, Sindangbarang, Kec. Bogor Bar., Kota Bogor, Jawa Barat 16117</p>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                         <div class="flex gap-1">
                             <span class="w-10 font-medium text-gray-600 print:text-gray-700">Nama</span>
                             <span class="text-gray-400">:</span>
-                            <span class="font-semibold text-gray-900 truncate">{{ $siswa->nama ?? '-' }}</span>
+                            <span class="font-semibold text-gray-900 uppercase truncate">{{ $siswa->nama ?? '-' }}</span>
                         </div>
                         <div class="flex gap-1">
                             <span class="w-10 font-medium text-gray-600 print:text-gray-700">Kelas</span>
@@ -120,7 +120,7 @@
                 <div class="px-3 pb-2 pt-0 flex justify-between items-end border-t border-gray-100 print:border-gray-400">
                     <div class="text-[9px] text-gray-600 print:text-black">
                         <span class="block">Berlaku hingga:</span>
-                        <span class="font-semibold text-gray-900">{{ now()->addYear()->format('d M Y') }}</span>
+                        <span class="font-semibold text-gray-900">{{ $siswa->tgl_masuk->addYear(3)->format('d M Y') }}</span>
                     </div>
                 </div>
 

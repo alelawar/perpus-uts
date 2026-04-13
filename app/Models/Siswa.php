@@ -17,6 +17,9 @@ class Siswa extends Model
         return $this->hasMany(Peminjaman::class, 'siswa_id', 'id');
     }
 
+    protected $casts = [
+        'tgl_masuk' => 'date',
+    ];
 
     // protected static function booted()
     // {
