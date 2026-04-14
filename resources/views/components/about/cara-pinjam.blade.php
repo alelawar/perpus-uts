@@ -13,7 +13,7 @@
           <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">1</div>
           <div>
             <p class="text-sm font-semibold text-gray-800 mb-0.5">Daftarkan Data Siswa</p>
-            <p class="text-xs text-gray-500 leading-relaxed">Sebelum bisa meminjam, data siswa harus didaftarkan terlebih dahulu oleh admin. Setiap siswa akan mendapatkan <span class="font-medium text-blue-600">kartu berisi QR Code</span> unik sebagai identitas.</p>
+            <p class="text-xs text-gray-500 leading-relaxed">Sebelum bisa meminjam, data siswa harus didaftarkan terlebih dahulu. Setiap siswa akan mendapatkan <span class="font-medium text-blue-600">kartu berisi QR Code</span> unik sebagai identitas. datangi petugas untuk mendaptkan kartu</p>
           </div>
         </div>
 

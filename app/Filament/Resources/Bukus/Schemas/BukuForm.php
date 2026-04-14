@@ -26,8 +26,7 @@ class BukuForm
                             ->required()
                             ->live(onBlur: true)
                             ->afterStateUpdated(
-                                fn($state, callable $set) =>
-                                $set('slug', Str::slug($state))
+                                fn ($state, callable $set) => $set('slug', Str::slug($state))
                             )
                             ->maxLength(255),
 
@@ -41,6 +40,24 @@ class BukuForm
                             ->columnSpan(2),
 
                     ])
+                    ->editOptionForm([
+                        TextInput::make('nama')
+                            ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(
+                                fn ($state, callable $set) => $set('slug', Str::slug($state))
+                            )
+                            ->maxLength(255),
+
+                        TextInput::make('slug')
+                            ->label('Slug')
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->disabled()
+                            ->dehydrated()
+                            ->columnSpan(2),
+                    ])
                     ->columnSpan(1),
 
                 TextInput::make('judul')
@@ -49,8 +66,7 @@ class BukuForm
                     ->maxLength(255)
                     ->live(onBlur: true)
                     ->afterStateUpdated(
-                        fn($state, callable $set) =>
-                        $set('slug', Str::slug($state))
+                        fn ($state, callable $set) => $set('slug', Str::slug($state))
                     )
                     ->columnSpan(1),
 

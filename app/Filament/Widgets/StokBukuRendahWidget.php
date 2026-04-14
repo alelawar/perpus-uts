@@ -3,20 +3,18 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Buku;
-use Filament\Actions\BulkActionGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
-use Illuminate\Database\Eloquent\Builder;
 
 class StokBukuRendahWidget extends TableWidget
 {
     protected static ?int $sort = 8;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
-     public function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->heading('Stok Buku Menipis')
@@ -29,35 +27,37 @@ class StokBukuRendahWidget extends TableWidget
             ->columns([
                 ImageColumn::make('cover')
                     ->label('Cover')
+                    ->visibility('public')
+                    ->disk('public')
                     ->size(50)
                     ->circular(),
-                    
+
                 TextColumn::make('judul')
                     ->label('Judul Buku')
                     ->searchable()
                     ->weight('bold')
                     ->limit(40),
-                    
+
                 TextColumn::make('penulis')
                     ->label('Penulis')
                     ->limit(25),
-                    
+
                 TextColumn::make('kategori.nama')
                     ->label('Kategori')
                     ->badge()
                     ->color('primary'),
-                    
+
                 TextColumn::make('rak')
                     ->label('Rak')
                     ->icon('heroicon-m-map-pin')
                     ->badge()
                     ->color('gray'),
-                    
+
                 TextColumn::make('hambalan')
                     ->label('Hambalan')
                     ->badge()
                     ->color('gray'),
-                    
+
                 TextColumn::make('stok')
                     ->label('Stok')
                     ->alignCenter()
@@ -74,15 +74,13 @@ class StokBukuRendahWidget extends TableWidget
                         $state <= 2 => 'heroicon-m-exclamation-circle',
                         default => 'heroicon-m-information-circle',
                     }),
-                    
+
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->getStateUsing(fn (Buku $record) => 
-                        $record->stok == 0 ? 'Habis' : 'Tersedia'
+                    ->getStateUsing(fn (Buku $record) => $record->stok == 0 ? 'Habis' : 'Tersedia'
                     )
-                    ->color(fn (Buku $record) => 
-                        $record->stok == 0 ? 'danger' : 'success'
+                    ->color(fn (Buku $record) => $record->stok == 0 ? 'danger' : 'success'
                     ),
             ])
             ->emptyStateHeading('Semua stok aman!')

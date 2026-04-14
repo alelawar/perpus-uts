@@ -29,6 +29,8 @@ class BukuPopulerWidget extends TableWidget
             ->columns([
                 ImageColumn::make('cover')
                     ->label('Cover')
+                    ->visibility('public')
+                    ->disk('public')
                     ->size(60)
                     ->circular(),
                     

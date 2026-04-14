@@ -1,5 +1,5 @@
 <x-layout>
-  <div class="p-4 md:p-7 flex-1 min-w-0">
+  <div class="p-4 md:p-7 flex-1 min-w-0 mx-auto">
     <div class="max-w-4xl">
 
       {{-- Hero --}}

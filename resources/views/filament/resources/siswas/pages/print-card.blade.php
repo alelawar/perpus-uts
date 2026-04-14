@@ -72,7 +72,7 @@
                 {{-- Header --}}
                 <div class="bg-gradient-to-r from-blue-700 to-indigo-800 p-3 text-white print:bg-blue-800">
                     <div class="flex items-center gap-2">
-                        <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo" class="w-10 h-10 bg-white rounded-full p-1 object-contain print:border print:border-gray-300">
+                        <img src="https://smkinfokom-bogor.sch.id/images/logo123.png" alt="Logo" class="w-10 h-10 bg-white rounded-full p-1 object-contain print:border print:border-gray-300">
                         <div class="flex-1 leading-tight">
                             <h2 class="text-[10px] font-bold uppercase tracking-wider">SEKOLAH MENENGAH ATAS</h2>
                             <h3 class="text-xs font-semibold">SMK INFOKOM BOGOR</h3>
@@ -109,7 +109,7 @@
 
                     {{-- QR Code --}}
                     <div class="flex-shrink-0 flex flex-col items-center justify-center">
-                        <div class="w-20 h-20 bg-white p-1 rounded border border-gray-200 flex items-center justify-center print:border-gray-400">
+                        <div class="w-10 h-10 bg-white p-1 rounded border border-gray-200 flex items-center justify-center print:border-gray-400">
                             {!! $siswa->qr_code_inline ?? '<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 text-[8px]">QR</div>' !!}
                         </div>
                         <span class="text-[8px] text-gray-500 mt-1 print:text-black">Scan QR</span>

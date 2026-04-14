@@ -240,39 +240,6 @@ class PeminjamanSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
-            // Siswa 14 - Mizar
-            [
-                'id' => 21,
-                'siswa_id' => 14,
-                'tgl_pinjam' => Carbon::now()->subDays(4),
-                'tgl_kembali_seharusnya' => Carbon::now()->addDays(3),
-                'tgl_kembali' => null,
-                'status' => 'dipinjam',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => 22,
-                'siswa_id' => 14,
-                'tgl_pinjam' => Carbon::now()->subDays(20),
-                'tgl_kembali_seharusnya' => Carbon::now()->subDays(13),
-                'tgl_kembali' => Carbon::now()->subDays(11),
-                'status' => 'kembali',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
-            // Siswa 15 - Nina
-            [
-                'id' => 23,
-                'siswa_id' => 15,
-                'tgl_pinjam' => Carbon::now()->subDays(2),
-                'tgl_kembali_seharusnya' => Carbon::now()->addDays(5),
-                'tgl_kembali' => null,
-                'status' => 'dipinjam',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
         ]);
     }
 }
